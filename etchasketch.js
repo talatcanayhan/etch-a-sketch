@@ -1,13 +1,23 @@
 const body = document.querySelector("body");
 
-const btn = document.createElement("button");
-const gridRowColor = "brown";
+//EXTRA content//
+const btnExtra = document.createElement("button");
+let Extra = false;
+btnExtra.innerHTML = "Extra";
+body.appendChild(btnExtra);
+btnExtra.onclick = () => {Extra = true;};
 
+
+const btn = document.createElement("button");
 btn.innerHTML = "SET NEW GRID";
+
+const gridRowColor = "brown";
+const trailColor = "yellow";
 btn.onclick = () => {
     const newPixelNum = window.prompt("Enter the number of pixels");
     createGrid(newPixelNum);
 };
+
 body.appendChild(btn);
 
 function createGridContainer() {
@@ -24,7 +34,12 @@ function clearBody() {
     if (removed != null)
         removed.remove();
 }
-
+function getRandomColor() {
+    const r = Math.floor(Math.random()*256);
+    const g = Math.floor(Math.random()*256);
+    const b = Math.floor(Math.random()*256);
+    return "rgb(" + r + "," + g + "," + b + ")";
+}
 function createGrid(pixelNum) {
     clearBody();
     createGridContainer();
@@ -44,8 +59,13 @@ function createGrid(pixelNum) {
             gridItem.style.height = (500 / pixelNum) + "px";
             gridItem.style.border = "solid";
             gridItem.style.borderWidth = "1px";
-            gridItem.onmouseover = () => {gridItem.style.backgroundColor = "yellow"};
-            //gridItem.onmouseleave = () => {gridItem.style.backgroundColor = gridRowColor};
+
+            gridItem.onmouseover = () => {gridItem.style.backgroundColor = trailColor};
+            
+            if (Extra) {
+            const newTrailColor = getRandomColor();
+            gridItem.onmouseleave = () => {gridItem.style.backgroundColor = newTrailColor};
+            }
 
             gridRow.appendChild(gridItem);
         }
